@@ -1733,11 +1733,6 @@ __gmp_expr & operator=(unsigned int i) { mpz_set_ui(mp, i); return *this; }
 
   double get_d() const { return mpz_get_d(mp); }
 
-  template<typename T>
-  inline operator T() const {
-    return (T) get_si();
-  }
-
   // bool fits_schar_p() const { return mpz_fits_schar_p(mp); }
   // bool fits_uchar_p() const { return mpz_fits_uchar_p(mp); }
   bool fits_sint_p() const { return mpz_fits_sint_p(mp) != 0; }
@@ -2181,16 +2176,6 @@ public:
   mpir_si get_si() const { return mpf_get_si(mp); }
   mpir_ui get_ui() const { return mpf_get_ui(mp); }
   double get_d() const { return mpf_get_d(mp); }
-
-  template<typename T, typename std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
-  inline operator T() const {
-    return (T) get_d();
-  }
-
-  template<typename T, typename std::enable_if_t<!std::is_floating_point_v<T>, int> = 0>
-  inline operator T() const {
-    return (T) get_si();
-  }
 
   // bool fits_schar_p() const { return mpf_fits_schar_p(mp)!= 0; }
   // bool fits_uchar_p() const { return mpf_fits_uchar_p(mp)!= 0; }
