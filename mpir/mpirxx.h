@@ -1606,6 +1606,9 @@ public:
   __gmp_expr(signed long int l) { mpz_init_set_si(mp, l); }
   __gmp_expr(unsigned long int l) { mpz_init_set_ui(mp, l); }
 
+  __gmp_expr(signed long long int l) { mpz_init_set_si(mp, l); }
+  __gmp_expr(unsigned long long int l) { mpz_init_set_ui(mp, l); }
+
 #ifdef MPIRXX_HAVE_LLONG
   __gmp_expr(signed long long int l) { mpz_init_set_si(mp, l); }
   __gmp_expr(unsigned long long int  l) { mpz_init_set_ui(mp, l); }
