@@ -55,7 +55,9 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #if defined(LLONG_MAX) && defined(LONG_MAX)
 #if LLONG_MAX != LONG_MAX
+#if !defined(MPIRXX_HAVE_LLONG)
 #define MPIRXX_HAVE_LLONG 1
+#endif
 #endif
 #endif
 
