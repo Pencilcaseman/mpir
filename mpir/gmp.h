@@ -30,10 +30,34 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <iosfwd>   /* for std::istream, std::ostream, std::string */
 #include <cstdio>
 #endif
+
+// Check for 32bit vs 64bit
+// Check windows
+#if _WIN32 || _WIN64
+#	if _WIN64
+#		define LIBRAPID_64BIT
+#	else
+#		define LIBRAPID_32BIT
+#	endif
+#endif
+
+// Check GCC
+#if __GNUC__
+#	if __x86_64__ || __ppc64__
+#		define LIBRAPID_64BIT
+#	else
+#		define LIBRAPID_32BIT
+#	endif
+#endif
+
+// If we don't know, defualt to 64 bit
+#if !defined(LIBRAPID_32BIT) && !defined(LIBRAPID_64BIT)
+#	define LIBRAPID_64BIT
+#endif
+
 /* Instantiated by configure. */
 #if ! defined (__GMP_WITHIN_CONFIGURE)
-#ifdef _WIN32 
-#  ifdef _WIN64 
+#  if defined(LIBRAPID_64BIT)
 #    define _LONG_LONG_LIMB  1 
 #    define GMP_LIMB_BITS   64 
 #  else 
@@ -42,7 +66,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS 
 #  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
 #  define GMP_NAIL_BITS                       0 
-#endif 
 #endif
 #define GMP_NUMB_BITS     (GMP_LIMB_BITS - GMP_NAIL_BITS)
 #define GMP_NUMB_MASK     ((~ __GMP_CAST (mp_limb_t, 0)) >> GMP_NAIL_BITS)
