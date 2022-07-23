@@ -1750,25 +1750,6 @@ __gmp_expr & operator=(unsigned int i) { mpz_set_ui(mp, i); return *this; }
   // bool fits_double_p() const { return mpz_fits_double_p(mp) != 0; }
   // bool fits_ldouble_p() const { return mpz_fits_ldouble_p(mp) != 0; }
 
-  operator double() const {
-    return get_d();
-  }
-
-  operator mpir_si() const {
-    return get_si();
-  }
-
-  operator mpir_ui() const {
-    return get_ui();
-  }
-
-  template<typename T>
-  operator T() const {
-    if constexpr(std::is_floating_point_v<T>) return (T) ((double) *this);
-    if constexpr(std::is_signed_v<T>) return (T) ((mpir_si) *this);
-    if constexpr(std::is_unsigned_v<T>) return (T) ((mpir_ui) *this);
-  }
-
 #if __GMPXX_USE_CXX11
   explicit operator bool() const { return mp->_mp_size != 0; }
 #endif
