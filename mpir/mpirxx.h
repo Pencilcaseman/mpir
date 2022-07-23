@@ -43,6 +43,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <stdexcept>
 #include <cfloat>
 #include <algorithm>  /* swap */
+#include <type_traits>
 #include <mpir.h>
 
 #if defined( _MSC_VER ) && _MSC_VER >= 1700
@@ -1748,6 +1749,25 @@ __gmp_expr & operator=(unsigned int i) { mpz_set_ui(mp, i); return *this; }
   // bool fits_float_p() const { return mpz_fits_float_p(mp) != 0; }
   // bool fits_double_p() const { return mpz_fits_double_p(mp) != 0; }
   // bool fits_ldouble_p() const { return mpz_fits_ldouble_p(mp) != 0; }
+
+  operator double() const {
+    return get_d();
+  }
+
+  operator mpir_si() const {
+    return get_si();
+  }
+
+  operator mpir_ui() const {
+    return get_ui();
+  }
+
+  template<typename T>
+  operator T() const {
+    if constexpr(std::is_floating_point_v<T>) return (T) ((double) *this);
+    if constexpr(std::is_signed_v<T>) return (T) ((mpir_si) *this);
+    if constexpr(std::is_unsigned_v<T>) return (T) ((mpir_ui) *this);
+  }
 
 #if __GMPXX_USE_CXX11
   explicit operator bool() const { return mp->_mp_size != 0; }
