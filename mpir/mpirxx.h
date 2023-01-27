@@ -2180,6 +2180,9 @@ public:
   mpir_ui get_ui() const { return mpf_get_ui(mp); }
   double get_d() const { return mpf_get_d(mp); }
 
+  explicit operator double() const { return get_d(); }
+  explicit operator float() const { return (float) get_d(); }
+
   // bool fits_schar_p() const { return mpf_fits_schar_p(mp)!= 0; }
   // bool fits_uchar_p() const { return mpf_fits_uchar_p(mp)!= 0; }
   bool fits_sint_p() const { return mpf_fits_sint_p(mp) != 0; }
